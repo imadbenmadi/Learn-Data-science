@@ -83,8 +83,8 @@ def transform(df):
     df=df.rename(columns = {"MC_USD_Billion":"GDP_USD_billions"})
     return df
 
-def my_load(df, csv_path):
-    df.to_csv(csv_path, index=False)
+def my_load(df, output_csv_path):
+    df.to_csv(output_csv_path, index=False)
     df.to_sql(table_name, sqlite3.connect(db_name), if_exists='replace', index=False)
     log_progress("Data loaded successfully")
 
@@ -103,7 +103,7 @@ def log_progress(message):
         f.write(timestamp + ' : ' + message + '\n')
 
 
-my_load(my_transform(my_extract(url, table_attribs)), csv_path)
+my_load(my_transform(my_extract(url, table_attribs)), output_csv_path)
 conn = sqlite3.connect(db_name)
 query = f"SELECT * from {table_name} WHERE GDP_USD_billions >= 100"
 print(run_query(query, conn))
