@@ -19,35 +19,47 @@ code_log = "code_log.txt"
 
 
 
-
+def log_progress(message):
+    timestamp_format = '%Y-%h-%d-%H:%M:%S' # Year-Monthname-Day-Hour-Minute-Second 
+    now = datetime.now() # get current timestamp 
+    timestamp = now.strftime(timestamp_format) 
+    if not os.path.exists(code_log):
+        with open(code_log, 'w') as f:
+            pass
+    with open(code_log, 'a') as f:
+        f.write(timestamp + ' : ' + message + '\n')
 
 def my_extract(url, table_attribs):
     html_content = requests.get(url).text
     soup = BeautifulSoup(html_content, "html.parser")
-    table = soup.find_all("tbody")[2]
+    table = soup.find_all("tbody")[1]
     df = pd.DataFrame(columns=table_attribs)
 
-    # The row should not be empty.
     table_rows = table.find_all("tr")
-    table_rows = [row for row in table_rows if [td for td in row.find_all("td") if td.text.strip()]]
+    table_rows = [row for row in table_rows if row.find_all("td")]
 
-    # Keep only rows where the first column <td> contains an <a> tag (a link)
-    rows_with_valid_links = [row for row in table_rows if row.find_all("td") and row.find_all("td")[0].find("a")]
-    table_rows = [ row.find_all("td") for row in rows_with_valid_links]
+    data_dict = {"Name": [], "MC_USD_Billion": []}  # Dictionary to store lists of values
 
-    # the third column should not be —
-    table_rows = [row for row in table_rows if row[2].text.strip() != "—"]
+    for row in table_rows:
+        cols = row.find_all("td")  
+        if len(cols) < 3:
+            continue
+        
+        name_tag = cols[1].find("a")
+        bank_name = name_tag.text.strip() if name_tag else "Unknown"
+        market_cap = cols[2].text.strip()
 
-    # string the df in dictionary
-    dict = {}
-    dict[table_attribs[0]] = [row[1].text.strip() for row in table_rows]
-    dict[table_attribs[1]] = [row[2].text.strip() for row in table_rows]
+        # Append to dictionary lists
+        data_dict["Name"].append(bank_name)
+        data_dict["MC_USD_Billion"].append(market_cap)
 
-    # Append all these dictionaries one by one to the dfframe.
-    df = pd.concat([df, pd.DataFrame(dict)], ignore_index=True)
+    df = pd.DataFrame(data_dict)
     log_progress("Data extracted successfully")
     return df
 
+
+# print(my_extract(url, table_attribs))
+# my_extract(url, table_attribs)
 
 def extract(url, table_attribs):
     page = requests.get(url).text
@@ -92,18 +104,10 @@ def run_query(query_statement, sql_connection):
     query = sql_connection.execute(query_statement)
     return query.fetchall()
 
-def log_progress(message):
-    timestamp_format = '%Y-%h-%d-%H:%M:%S' # Year-Monthname-Day-Hour-Minute-Second 
-    now = datetime.now() # get current timestamp 
-    timestamp = now.strftime(timestamp_format) 
-    if not os.path.exists(code_log):
-        with open(code_log, 'w') as f:
-            pass
-    with open(code_log, 'a') as f:
-        f.write(timestamp + ' : ' + message + '\n')
 
 
-my_load(my_transform(my_extract(url, table_attribs)), output_csv_path)
-conn = sqlite3.connect(db_name)
-query = f"SELECT * from {table_name} WHERE GDP_USD_billions >= 100"
-print(run_query(query, conn))
+
+# my_load(my_transform(my_extract(url, table_attribs)), output_csv_path)
+# conn = sqlite3.connect(db_name)
+# query = f"SELECT * from {table_name} WHERE GDP_USD_billions >= 100"
+# print(run_query(query, conn))
