@@ -78,7 +78,6 @@ def my_transform(df):
     df['MC_GBP_Billion'] = round(df['MC_USD_Billion'] * exchange_rates['GBP'], 2)
     df['MC_EUR_Billion'] = round(df['MC_USD_Billion'] * exchange_rates['EUR'], 2)
     df['MC_INR_Billions'] = round(df['MC_USD_Billion'] * exchange_rates['INR'], 2)
-
     return df
 
 
@@ -95,5 +94,9 @@ def run_query(query_statement, sql_connection):
 
 my_load(my_transform(my_extract(url, table_attribs)), output_csv_path)
 conn = sqlite3.connect(db_name)
-query = f"SELECT * from {table_name} "
-print(run_query(query, conn))
+query1 = f"SELECT * FROM Largest_banks"
+query2 = f"SELECT AVG(MC_GBP_Billion) FROM Largest_banks"
+query3 = f"SELECT * from Largest_banks LIMIT 5"
+# print(run_query(query1, conn))
+# print(run_query(query2, conn))
+print(run_query(query3, conn))
