@@ -22,6 +22,15 @@ SELECT
 FROM chicago_public_schools;
 SELECT * FROM chopapi;
 
+-- Write and execute a SQL query to list all crimes that took place at a school. Include case number, crime type, and community name.
+SELECT a.case_number, a.primary_type, b.community_area_name
+FROM chicago_crime_data a
+JOIN chicago_public_schools b
+ON a.location_description = b.name_of_school;
+-- How many rows were returned upon execution of this query
+Select count(*) FROM chicago_crime_data a
+JOIN chicago_public_schools b
+ON a.location_description = b.name_of_school;
 
 
 
