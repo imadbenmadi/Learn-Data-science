@@ -17,3 +17,5 @@ grouped = list(df.groupby('Department'))[1]
 print(grouped)
 # hr_group = df.groupby('Department').get_group('HR')
 # print(hr_group)
+
+
