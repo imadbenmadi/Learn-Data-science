@@ -26,8 +26,7 @@ Multiple Linear Regression extends SLR by incorporating multiple independent var
 
 ### Equation:
 
-\[ Y = \beta_0 + \beta_1X_1 + \beta_2X_2 + ... + \beta_nX_n + \epsilon \]
-
+![alt text](image-1.png)
 ### Implementation in Python:
 
 ```python
@@ -46,8 +45,7 @@ Polynomial Regression is a type of regression where the relationship between the
 
 ### Equation:
 
-\[ Y = \beta_0 + \beta_1X + \beta_2X^2 + ... + \beta_nX^n + \epsilon \]
-
+![alt text](image-2.png)
 ### Implementation in Python:
 
 ```python
@@ -121,8 +119,7 @@ Ridge Regression is a regularized version of Linear Regression that reduces over
 
 ### Equation:
 
-\[ \sum (Y - \hat{Y})^2 + \lambda \sum \beta_i^2 \]
-
+![alt text](image-3.png)
 ### Implementation in Python:
 
 ```python
