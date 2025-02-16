@@ -26,3 +26,10 @@ f = np.polyfit(x, y, 10)
 p = np.poly1d(f)
 print(p)
 PlotPolly(p, x, y, 'highway-mpg')
+
+
+
+# create 11 order polynomial model with the variables x and y from above
+f1 = np.polyfit(x, y, 11)
+p1 = np.poly1d(f1)
+print(p1)

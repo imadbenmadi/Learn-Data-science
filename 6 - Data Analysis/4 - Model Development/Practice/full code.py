@@ -3,7 +3,7 @@ import pandas as pd
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler, PolynomialFeatures
 from sklearn.linear_model import LinearRegression
-
+from sklearn.metrics import mean_squared_error
 file_name="usedcars.csv"
 df = pd.read_csv(file_name)
 
@@ -26,12 +26,16 @@ y = df[['price']]
 
 ypipe_df = pd.DataFrame(ypipe , columns=['price'])
 # Print first 4 predicted and actual values correctly
-print("The first 4 predicted values are:", 
-      {tuple(Z.iloc[i]): ypipe_df.iloc[i]['price'] for i in range(4)})
+# print("The first 4 predicted values are:", 
+#       {tuple(Z.iloc[i]): ypipe_df.iloc[i]['price'] for i in range(4)})
 
-print("The first 4 actual values are:", 
-      {tuple(Z.iloc[i]): y.iloc[i]['price'] for i in range(4)})
-
+# print("The first 4 actual values are:", 
+#       {tuple(Z.iloc[i]): y.iloc[i]['price'] for i in range(4)})
+print("the score of the model is:", pipe.score(Z, y))
+print("we can say that 84% of the variation in the price can be explained by the model")
+mse = mean_squared_error(y, ypipe)
+print("The mean squared error of the model is:", mse)
+print("The root mean squared error of the model is:", mse**0.5)
 # Plot actual vs. predicted values
 plt.figure(figsize=(8, 6))
 plt.scatter(y, ypipe, color='blue', label='Predicted vs Actual')  # Scatter plot for predictions
