@@ -1,3 +1,4 @@
+https://chatgpt.com/share/67c0020d-b788-8005-bb90-24c0be3391b7
 Bayes' Theorem helps us **update probabilities** when we get new information. It’s super useful in data science, medical testing, spam filtering, and many other areas.
 
 ### Formula:
