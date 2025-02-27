@@ -1,3 +1,6 @@
+https://chatgpt.com/share/67c0020d-b788-8005-bb90-24c0be3391b7
+
+
 The **Law of Total Probability** helps you calculate the probability of an event by considering different ways that event can happen.
 
 ### Basic Idea:
